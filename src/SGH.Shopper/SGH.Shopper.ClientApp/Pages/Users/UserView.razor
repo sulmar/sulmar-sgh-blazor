@@ -3,6 +3,21 @@
 
 <h3>UserView</h3>
 
+
+@if (user == null)
+{
+    <LoadingComponent Message="Loading user" />
+}
+else
+{
+    <div>
+        <p>@user.Name</p>
+        <p>@user.Email</p>
+        <p>@user.Website</p>
+        <p>@user.Company.Name</p>
+    </div>
+}
+
 @code {
 
     [Parameter]

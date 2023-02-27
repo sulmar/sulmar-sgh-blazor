@@ -1,0 +1,17 @@
+﻿@page "/planets"
+@inject NasaService Api
+
+<h3>Planets</h3>
+
+@code {
+    private IEnumerable<Planet> planets;
+
+    protected override async Task OnInitializedAsync()
+    {
+        planets = await Api.GetPlanets();
+    }
+
+    
+
+
+}
