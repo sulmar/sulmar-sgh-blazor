@@ -1,0 +1,29 @@
+﻿@page "/products"
+
+@inject ProductApiService Api
+
+<h3>ProductList</h3>
+
+@if (products == null)
+{
+    <LoadingComponent Message="Loading products" />
+}
+else
+{
+    <ul>
+        @foreach (var product in products)
+        {
+            <ul>@product.Name</ul>
+        }
+    </ul>
+}
+
+@code {
+    private IEnumerable<Product> products;
+
+    protected override async Task OnInitializedAsync()
+    {
+        products = await Api.GetProductsAsync();
+    }
+
+}

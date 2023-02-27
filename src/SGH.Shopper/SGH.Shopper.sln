@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SGH.Shopper.FullClientApp",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SGH.Shopper.Domain", "SGH.Shopper.Domain\SGH.Shopper.Domain.csproj", "{AD4844D4-2D64-4AA6-8E94-3BBABE024187}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SGH.Shopper.Api", "SGH.Shopper.Api\SGH.Shopper.Api.csproj", "{07173021-12A5-4ADD-8890-9976F26B68B3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SGH.Shopper.Infrastructure", "SGH.Shopper.Infrastructure\SGH.Shopper.Infrastructure.csproj", "{53B8E67A-551A-41B6-88B7-275E058CF236}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +31,14 @@ Global
 		{AD4844D4-2D64-4AA6-8E94-3BBABE024187}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AD4844D4-2D64-4AA6-8E94-3BBABE024187}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AD4844D4-2D64-4AA6-8E94-3BBABE024187}.Release|Any CPU.Build.0 = Release|Any CPU
+		{07173021-12A5-4ADD-8890-9976F26B68B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{07173021-12A5-4ADD-8890-9976F26B68B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{07173021-12A5-4ADD-8890-9976F26B68B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{07173021-12A5-4ADD-8890-9976F26B68B3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{53B8E67A-551A-41B6-88B7-275E058CF236}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{53B8E67A-551A-41B6-88B7-275E058CF236}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{53B8E67A-551A-41B6-88B7-275E058CF236}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{53B8E67A-551A-41B6-88B7-275E058CF236}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

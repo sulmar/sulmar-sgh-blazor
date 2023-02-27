@@ -15,39 +15,27 @@
 }
 else
 {
-    <table>
+@*    <UserTableTemplate Users="@users" ></UserTableTemplate>*@
 
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Phone</th>
-                <th>Website</th>
-                <th>Company</th>
-                <th>Action</th>
-            </tr>
-        </thead>
+    <TableTemplate Items="@users" Context="user">
+        <HeaderTemplate>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Website</th>
+            <th>Company</th>
+            <th>Action</th>  
+        </HeaderTemplate>
 
-        <tbody>
-            @foreach (var user in users)
-            {
-                <tr>
-                    <td>@user.Name</td>
-                    <td>@user.Email</td>
-                    <td>@user.Phone</td>
-                    <td>@user.Website</td>
-                    <td>@user.Company.Name</td>
-                    <td><button @onclick="()=>View(user.Id)" >View</button></td>
-                </tr>
-            }
-        </tbody>
+        <RowTemplate>
+            <td>@user.Name</td>
+            <td>@user.Email</td>
+            <td>@user.Phone</td>
+            <td>@user.Website</td>
+            <td>@user.Company.Name</td>
+        </RowTemplate>
+    </TableTemplate>
 
-        <tfoot>
-
-        </tfoot>
-
-
-    </table>
 }
 
 @code {

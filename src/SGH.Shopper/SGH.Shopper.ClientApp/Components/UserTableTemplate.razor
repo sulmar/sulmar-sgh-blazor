@@ -1,0 +1,38 @@
+﻿<table>
+
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Website</th>
+            <th>Company</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var user in Users)
+        {
+            <tr>
+                <td>@user.Name</td>
+                <td>@user.Email</td>
+                <td>@user.Phone</td>
+                <td>@user.Website</td>
+                <td>@user.Company.Name</td>               
+            </tr>
+        }
+    </tbody>
+
+    <tfoot>
+    </tfoot>
+
+
+</table>
+
+@code {
+
+    [Parameter]
+    public IEnumerable<User> Users { get; set;  }
+
+}

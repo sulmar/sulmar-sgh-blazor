@@ -12,5 +12,6 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 // dotnet add package Microsoft.Extensions.Http
 builder.Services.AddHttpClient<JsonPlaceholderService>(sp => sp.BaseAddress = new Uri("https://jsonplaceholder.typicode.com"));
 builder.Services.AddHttpClient<NasaService>(sp => sp.BaseAddress = new Uri("https://api.nasa.gov"));
+builder.Services.AddHttpClient<ProductApiService>(sp => sp.BaseAddress = new Uri("http://localhost:5041"));
 
 await builder.Build().RunAsync();

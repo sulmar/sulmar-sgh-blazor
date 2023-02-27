@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SGH.Shopper.Domain\SGH.Shopper.Domain.csproj" />
+    <ProjectReference Include="..\SGH.Shopper.Infrastructure\SGH.Shopper.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>
