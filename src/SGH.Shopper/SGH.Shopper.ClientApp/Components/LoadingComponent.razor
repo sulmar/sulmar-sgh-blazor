@@ -1,13 +1,23 @@
-﻿ 
+﻿
 <div class="loader">
     <div class="spinner"></div>
     <p><em>@Message</em>...</p>
+
+    @if (Content != null)
+    {
+        <div>
+            @Content
+        </div>
+    }
 </div>
 
 
- @code {
+@code {
 
-     [Parameter]
-     public string Message { get; set; }
+    [Parameter]
+    public string Message { get; set; }
+
+    [Parameter]
+    public RenderFragment? Content { get; set; }
 
  }

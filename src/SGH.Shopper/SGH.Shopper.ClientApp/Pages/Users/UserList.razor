@@ -1,21 +1,53 @@
 ﻿@page "/users"
 @inject JsonPlaceholderService Api
+@inject NavigationManager NavigationManager
 
 <h3>Users</h3>
 
 
 @if (users == null)
 {
-   <LoadingComponent Message="Loading users" />
+    <LoadingComponent Message="Loading users">
+        <Content>
+            <img src="https://api.nasa.gov/assets/img/favicons/favicon-192.png" />
+        </Content>
+    </LoadingComponent>
 }
 else
 {
-    <ul>
-        @foreach (var user in users)
-        {
-            <li>@user.Name @user.Email</li>
-        }
-    </ul>
+    <table>
+
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Website</th>
+                <th>Company</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var user in users)
+            {
+                <tr>
+                    <td>@user.Name</td>
+                    <td>@user.Email</td>
+                    <td>@user.Phone</td>
+                    <td>@user.Website</td>
+                    <td>@user.Company.Name</td>
+                    <td><button @onclick="()=>View(user.Id)" >View</button></td>
+                </tr>
+            }
+        </tbody>
+
+        <tfoot>
+
+        </tfoot>
+
+
+    </table>
 }
 
 @code {
@@ -28,6 +60,10 @@ else
         users = await Api.GetUsers();
     }
 
+    private void View(int id)
+    {
+        NavigationManager.NavigateTo($"/users/{id}");
+    }
 
 
 }

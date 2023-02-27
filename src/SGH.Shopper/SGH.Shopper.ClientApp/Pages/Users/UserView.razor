@@ -1,0 +1,18 @@
+﻿@page "/users/{id:int}"
+@inject JsonPlaceholderService Api
+
+<h3>UserView</h3>
+
+@code {
+
+    [Parameter]
+    public int Id { get; set; }
+
+    private User user;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        user = await Api.GetUserById(Id);
+    }
+
+}
