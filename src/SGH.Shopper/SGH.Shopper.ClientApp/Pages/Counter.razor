@@ -1,0 +1,36 @@
+﻿@page "/counter"
+
+<PageTitle>Counter</PageTitle>
+
+<h1>Counter</h1>
+
+<p>Your counter value is @currentCount</p>
+
+<button @onclick="()=>currentCount++">Increment</button>
+<button @onclick="()=>currentCount--">Decrement</button>
+
+<button @onclick="IncrementCount">Increment</button>
+<button @onclick="DecrementCount">Decrement</button>
+
+<button @onclick="ResetCount">Reset</button>
+
+@code {
+
+    private int currentCount;
+
+    protected override void OnInitialized()
+    {
+        currentCount = 10;
+    }
+
+    private void IncrementCount()
+    {
+        currentCount++;
+    }
+
+    private void DecrementCount()
+    {
+        currentCount--;
+    }
+
+}
