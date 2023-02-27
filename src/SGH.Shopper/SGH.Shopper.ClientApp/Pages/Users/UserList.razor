@@ -1,13 +1,12 @@
 ﻿@page "/users"
-@using Shopper.Domain
-@inject HttpClient client
+@inject JsonPlaceholderService Api
 
 <h3>Users</h3>
 
 
 @if (users == null)
 {
-    <p>Loading Users...</p>
+   <LoadingComponent Message="Loading users" />
 }
 else
 {
@@ -24,7 +23,9 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        users = await client.GetFromJsonAsync<IEnumerable<User>>("users");
+        await Task.Delay(TimeSpan.FromSeconds(5));
+
+        users = await Api.GetUsers();
     }
 
 
