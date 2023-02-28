@@ -34,6 +34,11 @@ app.MapGet("/", () => "Hello World!");
 
 app.MapGet("/api/products", async (IProductRepository repository) => await repository.GetAllAsync());
 
+// GET api/products/search?filter={content}
+
+app.MapGet("/api/products/search", async (IProductRepository repository, [FromQuery(Name = "filter")] string content) => await repository.GetByContent(content));
+
+
 app.MapGet("/api/products/{id:int}", async (IProductRepository repository, int id) => await repository.GetByIdAsync(id));
 
 app.Run();

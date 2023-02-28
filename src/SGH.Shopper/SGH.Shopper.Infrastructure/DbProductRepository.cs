@@ -16,6 +16,11 @@ public class DbProductRepository : IProductRepository
         throw new NotImplementedException();
     }
 
+    public Task<IEnumerable<Product>> GetByContent(string content)
+    {
+        throw new NotImplementedException();
+    }
+
     public Task<Product> GetByIdAsync(int id)
     {
         throw new NotImplementedException();

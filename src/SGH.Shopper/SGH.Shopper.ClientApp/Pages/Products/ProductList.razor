@@ -10,20 +10,50 @@
 }
 else
 {
-    <ul>
-        @foreach (var product in products)
-        {
-            <ul>@product.Name</ul>
-        }
-    </ul>
+    <form>
+        <div>
+            <label for="filter">Search: </label>
+            <input type="text" id="filter" @bind-value="filter" />
+        </div>
+
+        <button type="button" @onclick="Search">Search</button> 
+    </form>
+
+    <TableTemplate Items="@products" Context="product">
+        <HeaderTemplate>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Color</th>
+            <th>Price</th>
+            <th>Size</th>
+        </HeaderTemplate>
+
+        <RowTemplate>
+            <td>@product.Name</td>
+            <td>@product.Description</td>
+            <td>@product.Color</td>
+            <td>@product.Price</td>
+            <td>@product.Size</td>
+        </RowTemplate>
+
+    </TableTemplate>
+
+    
 }
 
 @code {
     private IEnumerable<Product> products;
 
+    private string filter;
+
     protected override async Task OnInitializedAsync()
     {
         products = await Api.GetProductsAsync();
+    }
+
+    private async Task Search()
+    {
+        products = await Api.GetProductsByContentAsync(filter);
     }
 
 }

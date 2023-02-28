@@ -8,4 +8,6 @@ public class ProductApiService
     private readonly HttpClient client;
     public ProductApiService(HttpClient client) => this.client = client;
     public async Task<IEnumerable<Product>> GetProductsAsync() => await client.GetFromJsonAsync<IEnumerable<Product>>("/api/products");
+    public async Task<IEnumerable<Product>> GetProductsByContentAsync(string content) => 
+        await client.GetFromJsonAsync<IEnumerable<Product>>($"/api/products/search?filter={content}");
 }
