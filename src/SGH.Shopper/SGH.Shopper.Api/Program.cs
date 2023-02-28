@@ -23,6 +23,7 @@ builder.Services.AddCors(options =>
         policy.WithOrigins("https://localhost:7141");
         policy.WithMethods(new string[] { "GET" });
         policy.AllowAnyHeader();
+        policy.WithExposedHeaders("X-Total-Count");
     });
 });
 
@@ -37,6 +38,17 @@ app.MapGet("/api/products", async (IProductRepository repository) => await repos
 // GET api/products/search?filter={content}
 
 app.MapGet("/api/products/search", async (IProductRepository repository, [FromQuery(Name = "filter")] string content) => await repository.GetByContent(content));
+
+// GET api/products?pageSize={pageSize}&pageNumber={pageNumber}
+app.MapGet("/api/products/paging", async (IProductRepository repository, [AsParameters] PagingParameters parameters, HttpResponse response) =>
+{
+    var result = await repository.GetAllAsync(parameters);
+
+    response.Headers.Add("X-Total-Count", result.TotalCount.ToString());
+
+    return Results.Ok(result.Items);
+    
+});
 
 
 app.MapGet("/api/products/{id:int}", async (IProductRepository repository, int id) => await repository.GetByIdAsync(id));

@@ -10,14 +10,16 @@
 }
 else
 {
-    <form>
+  @*  <form>
         <div>
             <label for="filter">Search: </label>
             <input type="text" id="filter" @bind-value="filter" />
         </div>
 
         <button type="button" @onclick="Search">Search</button> 
-    </form>
+    </form>*@
+
+    <SearchBarComponent OnSearch="Search"/>
 
     <TableTemplate Items="@products" Context="product">
         <HeaderTemplate>
@@ -38,22 +40,62 @@ else
 
     </TableTemplate>
 
+
+    <div>
+        <nav>
+            <ul>
+                @foreach(var link in links)
+                {
+                    <li @onclick="()=>SelectedPage(link.Page)">
+                        <span href="#">@link.Text</span>
+                    </li>
+                }
+            </ul>
+        </nav>
+
+    </div>
     
 }
 
 @code {
     private IEnumerable<Product> products;
 
-    private string filter;
+    private ICollection<PagingLink> links = Enumerable.Empty<PagingLink>().ToList();
+
+    // private string filter;
+
+    private int pageSize = 10;
 
     protected override async Task OnInitializedAsync()
     {
-        products = await Api.GetProductsAsync();
+        // products = await Api.GetProductsAsync();
+
+        var response = await Api.GetProductsAsync(new PagingParameters { PageNumber = 1, PageSize = pageSize });
+
+        products = response.Items;
+
+        CreatePaginationLinks(response.TotalCount / pageSize );
+
     }
 
-    private async Task Search()
+    private void CreatePaginationLinks(int totalPages)
     {
-        products = await Api.GetProductsByContentAsync(filter);
+        for (int i = 1; i <= totalPages; i++)
+        {
+            links.Add(new PagingLink { Page = i, Text = i.ToString() });
+        }
+    }
+
+    private async Task SelectedPage(int page)
+    {
+        var response = await Api.GetProductsAsync(new PagingParameters { PageNumber = page, PageSize = pageSize });
+
+        products = response.Items;
+    }
+
+    private async Task Search(string content)
+    {
+        products = await Api.GetProductsByContentAsync(content);
     }
 
 }

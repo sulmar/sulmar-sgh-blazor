@@ -16,6 +16,23 @@ public class InMemoryProductRepository : IProductRepository
         return Task.FromResult<IEnumerable<Product>>(_products.Values);
     }
 
+    public Task<PagingResponse<Product>> GetAllAsync(PagingParameters parameters)
+    {
+        var totalCount = _products.Count;
+
+        var items = _products.Values
+            .Skip(parameters.PageNumber * parameters.PageSize)
+            .Take(parameters.PageSize).ToList();
+
+        var response = new PagingResponse<Product>
+        {
+            Items = items,
+            TotalCount = totalCount
+        };
+
+        return Task.FromResult(response);
+    }
+
     public Task<IEnumerable<Product>> GetByContent(string content)
     {
         var results = _products.Values

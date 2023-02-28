@@ -1,0 +1,39 @@
+﻿
+<div>
+    <label for="filter">Search: </label>
+    <input type="text" id="filter" @bind-value="filter" @onkeyup="Enter" @ref="filterInputElementReference" />
+</div>
+
+<button type="button" @onclick="Search">Search</button>
+
+
+@code {
+    private string filter;
+
+    [Parameter]
+    public EventCallback<string> OnSearch { get; set; }
+
+    private ElementReference filterInputElementReference;
+
+    private async Task Enter(KeyboardEventArgs e)
+    {
+        if (e.Code == "Enter" || e.Code == "NumpadEnter")
+        {
+            await Search();
+        }
+    }
+
+    private async Task Search()
+    {
+        await OnSearch.InvokeAsync(filter);
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await filterInputElementReference.FocusAsync();
+        }
+    }
+
+}
