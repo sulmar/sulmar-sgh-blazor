@@ -4,13 +4,13 @@ using System.ComponentModel.DataAnnotations;
 
 public class Product : BaseEntity
 {
-    [Required, StringLength(20, MinimumLength = 3)]
+    // [Required, StringLength(20, MinimumLength = 3)]
     public string Name { get; set; }
     public string Description { get; set; }
-    [StringLength(14, MinimumLength = 14)]
+    // [StringLength(14, MinimumLength = 14)]
     public string Barcode { get; set; }
     public string Color { get; set; }
-    [Range(1, 1000)]
+    // [Range(1, 1000)]
     public decimal Price { get; set; }
     public bool HasDiscount { get; set; }
     public decimal PriceDiscount { get; set;}

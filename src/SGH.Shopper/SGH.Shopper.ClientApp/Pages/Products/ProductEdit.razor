@@ -9,7 +9,9 @@
 {
     <EditForm Model="product" OnValidSubmit="HandleValidSubmit">
 
-        <DataAnnotationsValidator />
+@*        <DataAnnotationsValidator />*@
+
+        <FluentValidationValidator />
 
         <ValidationSummary />
 
