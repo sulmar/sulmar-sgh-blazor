@@ -1,16 +1,74 @@
 ﻿@page "/products/edit/{id:int}"
 @inject ProductApiService Api
+@inject NavigationManager NavigationManager
 
 <h3>Product Edit</h3>
 
 
 @if (product != null)
 {
-    <EditForm Model="product" OnValidSubmit="HandleValidSubmit">
+    <EditForm Model="product" OnSubmit="HandleSubmit">
 
-        <InputText id="name" @bind-Value="product.Name" class="form-control" />
-        <InputTextArea id="description" @bind-Value="product.Description" class="form-control" />
-        <InputText id="barcode" @bind-Value="product.Barcode" class="form-control"  />
+        <div class="form-group">
+            <label>
+                Name:
+                <InputText id="name" @bind-Value="product.Name" class="form-control" />
+            </label>
+        </div>
+
+        <div class="form-group">
+            <label>
+                Description:
+                <InputTextArea id="description" @bind-Value="product.Description" class="form-control" />
+            </label>
+        </div>
+
+        <div class="form-group">
+            <label>
+                Barcode:
+                <InputText id="barcode" @bind-Value="product.Barcode" class="form-control" />
+            </label>
+        </div>
+
+        <div class="form-group">
+            <label>
+                Size:
+                <InputSelect id="size" @bind-Value="product.Size" class="form-select">
+                    <option value="">Select size</option>
+
+                    @*<option value="Small">Small</option>
+                <option value="Medium">Medium</option>
+                <option value="Large">Large</option>*@
+
+                    @foreach (var size in sizes)
+                    {
+                        <option value="@size">@size</option>
+                    }
+                </InputSelect>
+            </label>
+        </div>
+
+        <div class="form-group">
+            <label>
+                Price:
+                <InputNumber id="price" @bind-Value="product.Price" class="form-control" />
+            </label>
+        </div>
+
+        <div class="form-group">
+            <label>
+                Has discount:
+                <InputCheckbox id="hasDiscount" @bind-Value="product.HasDiscount" class="form-check-input" />
+            </label>
+
+            @if (product.HasDiscount)
+            {
+                <label>
+                    Discount:
+                    <InputNumber id="priceDiscount" @bind-Value="product.PriceDiscount" class="form-control" />
+                </label>
+            }
+        </div>
 
         <button type="submit">Submit</button>
 
@@ -26,14 +84,20 @@
 
     private Product product;
 
+    private Size[] sizes => Enum.GetValues<Size>();
+
     protected override async Task OnParametersSetAsync()
     {
         product = await Api.GetProductById(Id);
 
     }
 
-    private async Task HandleValidSubmit()
+    private async Task HandleSubmit()
     {
+        await Api.UpdateProduct(product);
+
+        NavigationManager.NavigateTo("/products");
+
         
     }
 

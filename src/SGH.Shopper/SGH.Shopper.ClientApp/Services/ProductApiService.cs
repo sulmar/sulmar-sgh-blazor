@@ -26,4 +26,5 @@ public class ProductApiService
     }
 
     public async Task<Product> GetProductById(int id) => await client.GetFromJsonAsync<Product>($"/api/products/{id}");
+    public async Task UpdateProduct(Product product) => await client.PutAsJsonAsync($"/api/products/{product.Id}", product);
 }

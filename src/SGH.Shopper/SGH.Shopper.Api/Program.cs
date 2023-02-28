@@ -21,7 +21,7 @@ builder.Services.AddCors(options =>
     options.AddDefaultPolicy(policy =>
     {
         policy.WithOrigins("https://localhost:7141");
-        policy.WithMethods(new string[] { "GET" });
+        policy.WithMethods(new string[] { "GET", "PUT" });
         policy.AllowAnyHeader();
         policy.WithExposedHeaders("X-Total-Count");
     });
@@ -52,5 +52,15 @@ app.MapGet("/api/products/paging", async (IProductRepository repository, [AsPara
 
 
 app.MapGet("/api/products/{id:int}", async (IProductRepository repository, int id) => await repository.GetByIdAsync(id));
+
+app.MapPut("/api/products/{id:int}", async (IProductRepository repository, int id, Product product) =>
+{
+    if (id != product.Id)
+        return Results.BadRequest();
+
+    await repository.UpdateAsync(product);
+
+    return Results.NoContent();
+});
 
 app.Run();

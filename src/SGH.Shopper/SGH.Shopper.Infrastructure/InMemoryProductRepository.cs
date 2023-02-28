@@ -46,4 +46,12 @@ public class InMemoryProductRepository : IProductRepository
     {
         return Task.FromResult(_products[id]);
     }
+
+    public Task UpdateAsync(Product product)
+    {
+        _products.Remove(product.Id);
+        _products.Add(product.Id, product);
+
+        return Task.CompletedTask;  
+    }
 }

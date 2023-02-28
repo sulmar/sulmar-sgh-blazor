@@ -30,4 +30,9 @@ public class DbProductRepository : IProductRepository
     {
         throw new NotImplementedException();
     }
+
+    public Task UpdateAsync(Product product)
+    {
+        throw new NotImplementedException();
+    }
 }
