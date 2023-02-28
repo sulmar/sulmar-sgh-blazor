@@ -5,6 +5,10 @@
     {
       "library": "bootstrap@5.2.3",
       "destination": "wwwroot/css/bootstrap/"
+    },
+    {
+      "library": "open-iconic@1.1.1",
+      "destination": "wwwroot/css/open-iconic/"
     }
   ]
 }
