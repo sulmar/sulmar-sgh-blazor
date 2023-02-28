@@ -1,0 +1,41 @@
+﻿@page "/products/edit/{id:int}"
+@inject ProductApiService Api
+
+<h3>Product Edit</h3>
+
+
+@if (product != null)
+{
+    <EditForm Model="product" OnValidSubmit="HandleValidSubmit">
+
+        <InputText id="name" @bind-Value="product.Name" class="form-control" />
+        <InputTextArea id="description" @bind-Value="product.Description" class="form-control" />
+        <InputText id="barcode" @bind-Value="product.Barcode" class="form-control"  />
+
+        <button type="submit">Submit</button>
+
+    </EditForm>
+}
+
+
+
+@code {
+
+    [Parameter]
+    public int Id { get; set; }
+
+    private Product product;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        product = await Api.GetProductById(Id);
+
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        
+    }
+
+
+}

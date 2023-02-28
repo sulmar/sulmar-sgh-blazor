@@ -24,4 +24,6 @@ public class ProductApiService
 
         return new PagingResponse<Product> { Items = items, TotalCount = totalCount };
     }
+
+    public async Task<Product> GetProductById(int id) => await client.GetFromJsonAsync<Product>($"/api/products/{id}");
 }
