@@ -21,4 +21,11 @@ public class ProductsHub : Hub
 
         return base.OnConnectedAsync();
     }
+
+    public override Task OnDisconnectedAsync(Exception? exception)
+    {
+        logger.LogInformation("Disconnected ConnectionId: {ConnectionId}", Context.ConnectionId);
+
+        return base.OnDisconnectedAsync(exception);
+    }
 }

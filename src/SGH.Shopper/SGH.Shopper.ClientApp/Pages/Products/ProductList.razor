@@ -2,6 +2,8 @@
 
 @using Microsoft.AspNetCore.SignalR.Client
 
+@implements IAsyncDisposable
+
 @inject ProductApiService Api
 @inject NavigationManager NavigationManager
 @inject HubConnection connection
@@ -94,10 +96,13 @@ else
             StateHasChanged();
         });
 
-        await connection.StartAsync();
+        await connection.StartAsync();              
 
-       
+    }
 
+    public async ValueTask DisposeAsync()
+    {
+        await connection.StopAsync();
     }
 
     private void CreatePaginationLinks(int totalPages)
