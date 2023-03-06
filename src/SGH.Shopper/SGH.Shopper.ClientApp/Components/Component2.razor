@@ -1,0 +1,18 @@
+﻿
+<div class="ml-5">
+    <h3>Component2</h3>
+</div>
+
+<p>
+    @CounterMessage @CounterValue
+</p>
+
+@code {
+
+    [CascadingParameter(Name = "Counter")]
+    public int CounterValue { get; set; }
+
+    [CascadingParameter(Name = "Message")]
+    public string CounterMessage { get; set; }
+
+}

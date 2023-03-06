@@ -6,6 +6,12 @@
 
 <p>Your counter value is @currentCount</p>
 
+<CascadingValue Value="@currentCount" Name="Counter">
+    <CascadingValue Value="@message" Name="Message">
+        <Component1></Component1>
+    </CascadingValue>
+</CascadingValue>
+
 <button @onclick="()=>currentCount++">Increment</button>
 <button @onclick="()=>currentCount--">Decrement</button>
 
@@ -17,6 +23,7 @@
 @code {
 
     private int currentCount;
+    private string message = "Stan licznika";
 
     protected override void OnInitialized()
     {

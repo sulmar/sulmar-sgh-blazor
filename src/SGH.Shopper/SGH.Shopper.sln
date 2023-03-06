@@ -3,15 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33403.182
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SGH.Shopper.ClientApp", "SGH.Shopper.ClientApp\SGH.Shopper.ClientApp.csproj", "{6DE2D17B-8D7B-49D1-AA38-5A750BC43955}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SGH.Shopper.ClientApp", "SGH.Shopper.ClientApp\SGH.Shopper.ClientApp.csproj", "{6DE2D17B-8D7B-49D1-AA38-5A750BC43955}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SGH.Shopper.FullClientApp", "SGH.Shopper.FullClientApp\SGH.Shopper.FullClientApp.csproj", "{B7CC531E-1AE9-47CF-AFF4-374A1722EB02}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SGH.Shopper.FullClientApp", "SGH.Shopper.FullClientApp\SGH.Shopper.FullClientApp.csproj", "{B7CC531E-1AE9-47CF-AFF4-374A1722EB02}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SGH.Shopper.Domain", "SGH.Shopper.Domain\SGH.Shopper.Domain.csproj", "{AD4844D4-2D64-4AA6-8E94-3BBABE024187}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SGH.Shopper.Domain", "SGH.Shopper.Domain\SGH.Shopper.Domain.csproj", "{AD4844D4-2D64-4AA6-8E94-3BBABE024187}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SGH.Shopper.Api", "SGH.Shopper.Api\SGH.Shopper.Api.csproj", "{07173021-12A5-4ADD-8890-9976F26B68B3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SGH.Shopper.Api", "SGH.Shopper.Api\SGH.Shopper.Api.csproj", "{07173021-12A5-4ADD-8890-9976F26B68B3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SGH.Shopper.Infrastructure", "SGH.Shopper.Infrastructure\SGH.Shopper.Infrastructure.csproj", "{53B8E67A-551A-41B6-88B7-275E058CF236}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SGH.Shopper.Infrastructure", "SGH.Shopper.Infrastructure\SGH.Shopper.Infrastructure.csproj", "{53B8E67A-551A-41B6-88B7-275E058CF236}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
