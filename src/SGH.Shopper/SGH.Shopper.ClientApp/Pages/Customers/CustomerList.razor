@@ -1,0 +1,31 @@
+﻿@page "/customers"
+
+@inject CustomerApiService Api
+
+
+<h3>CustomerList</h3>
+
+@if (customers == null)
+{
+    <LoadingComponent Message="Loading customers..."></LoadingComponent>
+}
+else
+{
+
+    <ul>
+        @foreach (var customer in customers)
+        {
+            <li>@customer.FirstName @customer.LastName</li>
+        }
+    </ul>
+}
+
+@code {
+    private IEnumerable<Customer> customers;
+
+    protected override async Task OnInitializedAsync()
+    {
+        customers = await Api.GetCustomersAsync();
+    }
+
+}
