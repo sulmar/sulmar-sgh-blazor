@@ -24,9 +24,9 @@ builder.Services.AddHttpClient<ProductApiService>(sp => sp.BaseAddress = new Uri
 //    return connection;
 //});
 
-builder.Services.AddSingleton(_ => new HubConnectionBuilder()
+builder.Services.AddSingleton<HubConnection>(_ =>new HubConnectionBuilder()
                                     .WithUrl("http://localhost:5041/hubs/products")
                                     .Build());
-    
+
 
 await builder.Build().RunAsync();

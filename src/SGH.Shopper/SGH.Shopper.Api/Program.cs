@@ -1,6 +1,7 @@
 using Bogus;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
+using SGH.Shopper.Api;
 using SGH.Shopper.Api.Hubs;
 using SGH.Shopper.Domain;
 using SGH.Shopper.Infrastructure;
@@ -76,6 +77,9 @@ app.MapPost("/api/products", async (Product product, IProductRepository reposito
 
     return Results.CreatedAtRoute("GetProductById", new { Id = product.Id }, product);
 });
+
+app.MapGroup("/api/customers")
+    .MapCustomers();
 
 app.MapHub<ProductsHub>("hubs/products");
 
