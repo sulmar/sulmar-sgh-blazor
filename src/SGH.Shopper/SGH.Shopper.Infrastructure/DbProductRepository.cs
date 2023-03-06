@@ -26,6 +26,11 @@ public class DbProductRepository : IProductRepository
         throw new NotImplementedException();
     }
 
+    public Task<PagingResponse<Product>> GetAllAsync(RequestParameters parameters)
+    {
+        throw new NotImplementedException();
+    }
+
     public Task<IEnumerable<Product>> GetByContent(string content)
     {
         throw new NotImplementedException();

@@ -6,6 +6,12 @@ public class PagingParameters
     public int PageNumber { get; set; }
 }
 
+public class RequestParameters
+{
+    public int StartIndex { get; set; }
+    public int Count { get; set; }
+}
+
 
 public class PagingResponse<TITem>
 {

@@ -1,9 +1,12 @@
 ﻿@page "/customers"
+@using Microsoft.AspNetCore.Components.QuickGrid
+@using Microsoft.AspNetCore.Components.Web.Virtualization
 
 @inject CustomerApiService Api
 
 
 <h3>CustomerList</h3>
+
 
 @if (customers == null)
 {
@@ -12,20 +15,75 @@
 else
 {
 
-    <ul>
+  @*  <ul>
         @foreach (var customer in customers)
         {
             <li>@customer.FirstName @customer.LastName</li>
         }
+    </ul>*@
+
+
+   <ul>
+        @*<Virtualize Items="customers" Context="customer">            
+            <li>@customer.FirstName @customer.LastName</li>
+        </Virtualize>*@
+
+        @*<Virtualize Items="customers" Context="customer">
+            <ItemContent>
+                <li>@customer.FirstName @customer.LastName</li>
+            </ItemContent>
+            <Placeholder>
+                <li>Loading item...</li>
+            </Placeholder>
+            
+        </Virtualize>*@
+
+        <Virtualize ItemsProvider="LoadCustomers" Context="customer">
+            <ItemContent>
+                <li>@customer.FirstName @customer.LastName</li>
+            </ItemContent>
+            <Placeholder>
+                <li>Loading item...</li>
+            </Placeholder>
+            
+        </Virtualize>
+
+
+
     </ul>
 }
+   
+    
+
+@*<QuickGrid Items="@customers.AsQueryable()" Virtualize="true">
+    <PropertyColumn Property="@(p=>p.Id)" Sortable="true" />
+    <PropertyColumn Property="@(p=>p.FirstName)" Sortable="true" />
+    <PropertyColumn Property="@(p=>p.LastName)" Sortable="true" />
+    <PropertyColumn Property="@(p=>p.Email)" Sortable="false" />
+</QuickGrid>
+*@
 
 @code {
-    private IEnumerable<Customer> customers;
+    private ICollection<Customer> customers;
 
     protected override async Task OnInitializedAsync()
     {
-        customers = await Api.GetCustomersAsync();
+        RequestParameters parameters = new RequestParameters { StartIndex = 0, Count = 10 };
+
+        var response = await Api.GetCustomersAsync(parameters);
+
+        customers = response.Items.ToList();
+    }
+
+    private async ValueTask<ItemsProviderResult<Customer>> LoadCustomers(ItemsProviderRequest request)
+    {
+        RequestParameters parameters = new RequestParameters { StartIndex = request.StartIndex, Count = request.Count };
+
+        // customers = (await Api.GetCustomersAsync()).ToList();
+
+        var response = await Api.GetCustomersAsync(parameters);
+
+        return new ItemsProviderResult<Customer>(response.Items, response.TotalCount);
     }
 
 }

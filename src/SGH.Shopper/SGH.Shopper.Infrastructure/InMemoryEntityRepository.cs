@@ -45,6 +45,15 @@ public class InMemoryEntityRepository<T> : IEntityRepository<T>
         return Task.FromResult(response);
     }
 
+    public Task<PagingResponse<T>> GetAllAsync(RequestParameters parameters)
+    {
+        var items = _entities.Values.Skip(parameters.StartIndex).Take(parameters.Count);
+
+        var response = new PagingResponse<T> { Items = items, TotalCount = _entities.Count };
+
+        return Task.FromResult(response);
+    }
+
     public virtual Task<IEnumerable<T>> GetByContent(string content)
     {
         var results = _entities.Values
