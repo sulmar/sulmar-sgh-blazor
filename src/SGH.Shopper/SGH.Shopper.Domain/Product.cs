@@ -16,6 +16,10 @@ public class Product : BaseEntity
     public decimal PriceDiscount { get; set;}
     public Size? Size { get; set; }
 
+    public override bool HasContent(string content) => 
+        Name.Contains(content, StringComparison.OrdinalIgnoreCase)
+        || Description.Contains(content, StringComparison.OrdinalIgnoreCase);
+    
 }
 
 public enum Size

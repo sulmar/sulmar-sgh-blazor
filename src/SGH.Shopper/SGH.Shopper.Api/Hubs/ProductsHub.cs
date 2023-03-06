@@ -19,12 +19,18 @@ public class ProductsHub : Hub
         // dobra praktyka
         logger.LogInformation("Connected ConnectionId: {ConnectionId}", Context.ConnectionId);
 
+        // Context.User
+       //  this.Groups.AddToGroupAsync(Context.ConnectionId, "DepartmentB");
+
+        // this.Clients.Group("DepartmentB");
+
         return base.OnConnectedAsync();
     }
 
     public override Task OnDisconnectedAsync(Exception? exception)
     {
         logger.LogInformation("Disconnected ConnectionId: {ConnectionId}", Context.ConnectionId);
+
 
         return base.OnDisconnectedAsync(exception);
     }

@@ -26,6 +26,7 @@ builder.Services.AddHttpClient<ProductApiService>(sp => sp.BaseAddress = new Uri
 
 builder.Services.AddSingleton<HubConnection>(_ =>new HubConnectionBuilder()
                                     .WithUrl("http://localhost:5041/hubs/products")
+                                    .WithAutomaticReconnect()
                                     .Build());
 
 

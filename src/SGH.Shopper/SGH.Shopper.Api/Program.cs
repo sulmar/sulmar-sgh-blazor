@@ -19,6 +19,11 @@ builder.Services.AddSingleton<IEnumerable<Product>>(sp =>
 });
 
 
+builder.Services.AddSingleton<Faker<Customer>, CustomerFaker>();
+builder.Services.AddSingleton<ICustomerRepository, InMemoryCustomerRepository>();
+builder.Services.AddSingleton<IEnumerable<Customer>>(sp => sp.GetRequiredService<Faker<Customer>>().Generate(200));
+
+
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(policy =>
@@ -82,5 +87,6 @@ app.MapGroup("/api/customers")
     .MapCustomers();
 
 app.MapHub<ProductsHub>("hubs/products");
+
 
 app.Run();

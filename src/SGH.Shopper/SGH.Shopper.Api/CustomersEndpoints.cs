@@ -6,9 +6,9 @@ public static class CustomersEndpoints
 {
     public static RouteGroupBuilder MapCustomers(this RouteGroupBuilder group)
     {
-        group.MapGet(string.Empty, () => Results.Ok());
-        group.MapGet("{id:int}", (int id) => Results.Ok());
-        group.MapPost(string.Empty, (Customer customer) => Results.Ok());
+        group.MapGet(string.Empty, async (ICustomerRepository repository) => await repository.GetAllAsync());
+        group.MapGet("{id:int}", async (int id, ICustomerRepository repository) => await repository.GetByIdAsync(id));
+        group.MapPost(string.Empty, async (Customer customer, ICustomerRepository repository) => await repository.AddAsync(customer));
 
         return group;
     }

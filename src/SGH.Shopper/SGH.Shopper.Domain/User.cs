@@ -7,4 +7,9 @@ public class User : BaseEntity
     public string Phone { get; set; }
     public string Website { get; set; }
     public Company Company { get; set; }
+
+    public override bool HasContent(string content)
+    {
+        throw new NotImplementedException();
+    }
 }
