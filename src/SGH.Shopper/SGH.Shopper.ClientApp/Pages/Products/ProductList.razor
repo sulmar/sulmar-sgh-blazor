@@ -1,7 +1,10 @@
 ﻿@page "/products"
 
+@using Microsoft.AspNetCore.SignalR.Client
+
 @inject ProductApiService Api
 @inject NavigationManager NavigationManager
+@inject HubConnection connection
 
 <h3>ProductList</h3>
 
@@ -63,7 +66,7 @@ else
 }
 
 @code {
-    private IEnumerable<Product> products;
+    private ICollection<Product> products;
 
     private ICollection<PagingLink> links = Enumerable.Empty<PagingLink>().ToList();
 
@@ -78,9 +81,22 @@ else
 
         var response = await Api.GetProductsAsync(new PagingParameters { PageNumber = 1, PageSize = pageSize });
 
-        products = response.Items;
+        products = response.Items.ToList();
 
         CreatePaginationLinks(response.TotalCount / pageSize);
+
+        connection.On<Product>("AddedProduct", product =>
+        {
+            Console.WriteLine($"Added product {product.Name}");
+
+            products.Add(product);
+
+            StateHasChanged();
+        });
+
+        await connection.StartAsync();
+
+       
 
     }
 
@@ -96,12 +112,12 @@ else
     {
         var response = await Api.GetProductsAsync(new PagingParameters { PageNumber = page, PageSize = pageSize });
 
-        products = response.Items;
+        products = response.Items.ToList();
     }
 
     private async Task Search(string content)
     {
-        products = await Api.GetProductsByContentAsync(content);
+        products = (await Api.GetProductsByContentAsync(content)).ToList();
     }
 
     private void Edit(int id)

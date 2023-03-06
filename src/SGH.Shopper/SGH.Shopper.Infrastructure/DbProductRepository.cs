@@ -11,6 +11,11 @@ public class DbProductRepository : IProductRepository
         this.context = context;
     }
 
+    public Task AddAsync(Product product)
+    {
+        throw new NotImplementedException();
+    }
+
     public Task<IEnumerable<Product>> GetAllAsync()
     {
         throw new NotImplementedException();

@@ -7,5 +7,6 @@ public interface IProductRepository
     Task<PagingResponse<Product>> GetAllAsync(PagingParameters parameters);
     Task<Product> GetByIdAsync(int id);
     Task UpdateAsync(Product product);
+    Task AddAsync(Product product);
 
 }

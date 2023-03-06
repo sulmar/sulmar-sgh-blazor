@@ -11,6 +11,17 @@ public class InMemoryProductRepository : IProductRepository
         _products = products.ToDictionary(p => p.Id);
     }
 
+    public Task AddAsync(Product product)
+    {
+        var id = _products.Values.Max(p => p.Id);
+        
+        product.Id = ++id;
+
+        _products.Add(product.Id, product);
+
+        return Task.CompletedTask;
+    }
+
     public Task<IEnumerable<Product>> GetAllAsync()
     {
         return Task.FromResult<IEnumerable<Product>>(_products.Values);

@@ -1,5 +1,7 @@
 using Bogus;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
+using SGH.Shopper.Api.Hubs;
 using SGH.Shopper.Domain;
 using SGH.Shopper.Infrastructure;
 using SGH.Shopper.Infrastructure.Fakers;
@@ -27,6 +29,8 @@ builder.Services.AddCors(options =>
     });
 });
 
+builder.Services.AddSignalR();
+
 var app = builder.Build();
 
 app.UseCors();
@@ -51,7 +55,8 @@ app.MapGet("/api/products/paging", async (IProductRepository repository, [AsPara
 });
 
 
-app.MapGet("/api/products/{id:int}", async (IProductRepository repository, int id) => await repository.GetByIdAsync(id));
+app.MapGet("/api/products/{id:int}", async (IProductRepository repository, int id) => await repository.GetByIdAsync(id))
+    .WithName("GetProductById");
 
 app.MapPut("/api/products/{id:int}", async (IProductRepository repository, int id, Product product) =>
 {
@@ -62,5 +67,16 @@ app.MapPut("/api/products/{id:int}", async (IProductRepository repository, int i
 
     return Results.NoContent();
 });
+
+app.MapPost("/api/products", async (Product product, IProductRepository repository, IHubContext<ProductsHub> hubContext) =>
+{
+    await repository.AddAsync(product);
+
+    await hubContext.Clients.All.SendAsync("AddedProduct", product);
+
+    return Results.CreatedAtRoute("GetProductById", new { Id = product.Id }, product);
+});
+
+app.MapHub<ProductsHub>("hubs/products");
 
 app.Run();
