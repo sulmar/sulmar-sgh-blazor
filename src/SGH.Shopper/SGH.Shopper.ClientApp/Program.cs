@@ -31,7 +31,8 @@ builder.Services.AddSingleton<HubConnection>(_ =>new HubConnectionBuilder()
                                     .WithAutomaticReconnect()
                                     .Build());
 
-builder.Services.AddSingleton<IJSInProcessRuntime>(sp => (IJSInProcessRuntime)sp.GetRequiredService<IJSRuntime>());
-builder.Services.AddSingleton<IStorageProvider, LocalStorageProvider>();
+builder.Services.AddSingleton(sp => (IJSInProcessRuntime)sp.GetRequiredService<IJSRuntime>());
+//builder.Services.AddSingleton<IStorageProvider, LocalStorageProvider>();
+builder.Services.AddSingleton<IStorageProvider, SessionStorageProvider>();
 
 await builder.Build().RunAsync();
