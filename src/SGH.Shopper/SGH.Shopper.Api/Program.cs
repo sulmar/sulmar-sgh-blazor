@@ -30,7 +30,10 @@ builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(policy =>
     {
-        policy.WithOrigins("https://localhost:7141");
+        policy.WithOrigins(new string[] {
+            "http://localhost:5059",
+            "https://localhost:7141"
+        });
         policy.WithMethods(new string[] { "GET", "PUT" });
         policy.AllowAnyHeader();
         policy.WithExposedHeaders("X-Total-Count");
