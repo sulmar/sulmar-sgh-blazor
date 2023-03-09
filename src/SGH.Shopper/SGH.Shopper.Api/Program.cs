@@ -82,7 +82,7 @@ app.MapGet("api/documents/{message}", (string message) =>
 
     stream.Position = 0;
 
-    return Results.File(stream, contentType: MediaTypeNames.Application.Pdf);
+    return Results.File(stream, contentType: MediaTypeNames.Application.Pdf, "document.pdf" );
 });
 
 app.MapPut("/api/products/{id:int}", async (IProductRepository repository, int id, Product product) =>
