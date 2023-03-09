@@ -12,6 +12,8 @@ public interface IStorageProvider
 
 }
 
+// na podst. https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage
+
 // Mozna skorzystać z gotowej biblioteki:
 // https://github.com/Blazored/LocalStorage/tree/main/src/Blazored.LocalStorage
 public class LocalStorageProvider : IStorageProvider

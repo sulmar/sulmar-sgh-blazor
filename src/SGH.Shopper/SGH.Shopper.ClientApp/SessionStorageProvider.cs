@@ -3,6 +3,10 @@ using System.ComponentModel;
 
 namespace SGH.Shopper.ClientApp;
 
+// na podst. https://developer.mozilla.org/en-US/docs/Web/API/Window/sessionStorage
+
+// Mozna skorzystać z gotowej biblioteki:
+// https://github.com/Blazored/SessionStorage
 public class SessionStorageProvider : IStorageProvider
 {
     private readonly IJSInProcessRuntime js;
