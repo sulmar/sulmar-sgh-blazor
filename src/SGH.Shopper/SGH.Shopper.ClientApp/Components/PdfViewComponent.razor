@@ -1,0 +1,22 @@
+﻿<iframe src="@Source#toolbar=@Toolbar&view=@View" width="100%" height="100%"></iframe>
+    
+@code {
+
+    [Parameter]
+    public string Source { get; set; }
+
+    [Parameter]
+    public bool Toolbar { get; set; } = true;
+
+    [Parameter]
+    public ViewType View { get; set; }
+
+
+    public enum ViewType
+    {
+        Fit,
+        FitH,
+        FitV
+    }
+
+}

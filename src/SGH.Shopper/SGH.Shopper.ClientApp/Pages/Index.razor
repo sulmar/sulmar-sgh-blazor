@@ -1,4 +1,5 @@
 ﻿@page "/"
+@using static SGH.Shopper.ClientApp.Components.PdfViewComponent;
 
 <h1 class="bg-info">Hello, world!</h1>
 
@@ -7,6 +8,11 @@
 
  @html
 
+
+@*<iframe src="https://www.soundczech.cz/temp/lorem-ipsum.pdf#toolbar=0" width="100%" height="100%"></iframe>
+*@
+
+<PdfViewComponent Source="https://www.soundczech.cz/temp/lorem-ipsum.pdf" Toolbar="false" View="ViewType.FitH" />
 
 @code {
 

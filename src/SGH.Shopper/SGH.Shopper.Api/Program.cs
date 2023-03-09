@@ -1,11 +1,13 @@
 using Bogus;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.Extensions.FileProviders;
 using SGH.Shopper.Api;
 using SGH.Shopper.Api.Hubs;
 using SGH.Shopper.Domain;
 using SGH.Shopper.Infrastructure;
 using SGH.Shopper.Infrastructure.Fakers;
+using System.Net.Mime;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -37,9 +39,18 @@ builder.Services.AddCors(options =>
 
 builder.Services.AddSignalR();
 
+
 var app = builder.Build();
 
 app.UseCors();
+
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(Path.Combine(builder.Environment.ContentRootPath, "Assets")),
+    RequestPath = "/documents"
+});
+
+  
 
 app.MapGet("/", () => "Hello World!");
 
@@ -63,6 +74,16 @@ app.MapGet("/api/products/paging", async (IProductRepository repository, [AsPara
 
 app.MapGet("/api/products/{id:int}", async (IProductRepository repository, int id) => await repository.GetByIdAsync(id))
     .WithName("GetProductById");
+
+app.MapGet("api/documents/{message}", (string message) =>
+{
+    var stream = new MemoryStream();
+    // TODO: generowanie pdf - zapis do strumienia
+
+    stream.Position = 0;
+
+    return Results.File(stream, contentType: MediaTypeNames.Application.Pdf);
+});
 
 app.MapPut("/api/products/{id:int}", async (IProductRepository repository, int id, Product product) =>
 {
