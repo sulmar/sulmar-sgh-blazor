@@ -4,7 +4,7 @@ public partial class Counter
 {
     private void ResetCount()
     {
-        currentCount = 0;
+        CurrentCount = 0;
     }
 
 }

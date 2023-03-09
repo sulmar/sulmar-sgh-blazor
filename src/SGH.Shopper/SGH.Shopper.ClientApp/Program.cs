@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.AspNetCore.SignalR.Client;
+using Microsoft.JSInterop;
 using SGH.Shopper.ClientApp;
 using SGH.Shopper.ClientApp.Services;
 
@@ -30,5 +31,6 @@ builder.Services.AddSingleton<HubConnection>(_ =>new HubConnectionBuilder()
                                     .WithAutomaticReconnect()
                                     .Build());
 
+builder.Services.AddSingleton<IJSInProcessRuntime>(sp => (IJSInProcessRuntime)sp.GetRequiredService<IJSRuntime>());
 
 await builder.Build().RunAsync();

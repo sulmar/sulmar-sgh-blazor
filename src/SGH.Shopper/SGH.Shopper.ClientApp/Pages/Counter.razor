@@ -1,19 +1,20 @@
 ﻿@page "/counter"
+@inject IJSInProcessRuntime JS
 
 <PageTitle>Counter</PageTitle>
 
 <h1>Counter</h1>
 
-<p>Your counter value is @currentCount</p>
+<p>Your counter value is @CurrentCount</p>
 
-<CascadingValue Value="@currentCount" Name="Counter">
+<CascadingValue Value="@CurrentCount" Name="Counter">
     <CascadingValue Value="@message" Name="Message">
         <Component1></Component1>
     </CascadingValue>
 </CascadingValue>
 
-<button @onclick="()=>currentCount++">Increment</button>
-<button @onclick="()=>currentCount--">Decrement</button>
+<button @onclick="()=>CurrentCount++">Increment</button>
+<button @onclick="()=>CurrentCount--">Decrement</button>
 
 <button @onclick="IncrementCount">Increment</button>
 <button @onclick="DecrementCount">Decrement</button>
@@ -22,22 +23,52 @@
 
 @code {
 
-    private int currentCount;
+    // back field
+    private int _currentCount;
+
+    public int CurrentCount
+    {
+        get
+        {           
+            return _currentCount;
+        }
+
+        set
+        {
+            _currentCount = value;
+
+            JS.InvokeVoid("localStorage.setItem", "CurrentCount", _currentCount);
+
+        }
+    }
+
+
     private string message = "Stan licznika";
 
     protected override void OnInitialized()
     {
-        currentCount = 10;
+       
+        JS.InvokeVoid("console.log", "Hello Blazor!");
+
+        var value = JS.Invoke<string>("localStorage.getItem", "CurrentCount");
+
+        if (!int.TryParse(value, out _currentCount))
+        {
+            _currentCount = default;
+        }
+
+        
+
     }
 
     private void IncrementCount()
     {
-        currentCount++;
+        CurrentCount++;
     }
 
     private void DecrementCount()
     {
-        currentCount--;
+        CurrentCount--;
     }
 
 }
