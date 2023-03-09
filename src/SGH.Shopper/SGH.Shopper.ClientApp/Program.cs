@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.JSInterop;
 using SGH.Shopper.ClientApp;
 using SGH.Shopper.ClientApp.Services;
+using Fluxor;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
@@ -34,5 +35,15 @@ builder.Services.AddSingleton<HubConnection>(_ =>new HubConnectionBuilder()
 builder.Services.AddSingleton(sp => (IJSInProcessRuntime)sp.GetRequiredService<IJSRuntime>());
 //builder.Services.AddSingleton<IStorageProvider, LocalStorageProvider>();
 builder.Services.AddSingleton<IStorageProvider, SessionStorageProvider>();
+
+builder.Services.AddFluxor(options =>
+{
+    options.ScanAssemblies(typeof(Program).Assembly);
+    options.UseReduxDevTools(rdt =>
+    {
+        rdt.Name = "Shopper App";
+    });
+});
+
 
 await builder.Build().RunAsync();

@@ -1,0 +1,41 @@
+﻿@page "/counterfluxor"
+@inherits FluxorComponent
+
+@using Fluxor;
+@using Fluxor.Blazor.Web.Components;
+@using SGH.Shopper.ClientApp.States.Counter;
+
+@inject IDispatcher dispatcher
+@inject IState<CounterState> counterState
+
+
+
+<PageTitle>Counter</PageTitle>
+
+<h1>Counter</h1>
+
+<p>Your counter value is @currentCount</p>
+
+<button @onclick="IncrementCount">Increment</button>
+<button @onclick="DecrementCount">Decrement</button>
+
+@if(currentCount>7)
+{
+    <p>Overlimit!</p>
+}
+
+@code {
+
+    private int currentCount => counterState.Value.CounterValue;
+
+    private void IncrementCount()
+    {
+        dispatcher.Dispatch(new IncrementCounterAction());
+    }
+
+    private void DecrementCount()
+    {
+        dispatcher.Dispatch(new DecrementCounterAction());
+    }
+
+}
