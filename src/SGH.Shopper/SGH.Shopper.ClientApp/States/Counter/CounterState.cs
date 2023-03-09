@@ -1,4 +1,6 @@
-﻿namespace SGH.Shopper.ClientApp.States.Counter;
+﻿using Fluxor;
+
+namespace SGH.Shopper.ClientApp.States.Counter;
 
 
 public record CounterState

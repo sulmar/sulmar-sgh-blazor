@@ -1,0 +1,62 @@
+﻿@page "/usersfluxer"
+@inherits FluxorComponent
+@using Fluxor;
+@using Fluxor.Blazor.Web.Components;
+@using SGH.Shopper.ClientApp.States.User;
+@inject NavigationManager NavigationManager
+@inject IState<UserState> userState
+@inject IDispatcher dispatcher
+
+
+<h3>Users Fluxer!</h3>
+
+
+@if (userState.Value.IsLoading)
+{
+    <LoadingComponent Message="Loading users">
+        <Content>
+            <img src="https://api.nasa.gov/assets/img/favicons/favicon-192.png" />
+        </Content>
+    </LoadingComponent>
+}
+else
+{
+@*    <UserTableTemplate Users="@users" ></UserTableTemplate>*@
+
+    <TableTemplate Items="@users" Context="user">
+        <HeaderTemplate>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Website</th>
+            <th>Company</th>
+            <th>Action</th>  
+        </HeaderTemplate>
+
+        <RowTemplate>
+            <td>@user.Name</td>
+            <td>@user.Email</td>
+            <td>@user.Phone</td>
+            <td>@user.Website</td>
+            <td>@user.Company.Name</td>
+        </RowTemplate>
+    </TableTemplate>
+
+}
+
+@code {
+    private IEnumerable<User> users => userState.Value.Users;
+
+    protected override async Task OnInitializedAsync()
+    {        
+        dispatcher.Dispatch(new GetUsersAction());
+
+    }
+
+    private void View(int id)
+    {
+        NavigationManager.NavigateTo($"/users/{id}");
+    }
+
+
+}
