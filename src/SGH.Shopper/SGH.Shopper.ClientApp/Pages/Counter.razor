@@ -1,5 +1,5 @@
 ﻿@page "/counter"
-@inject IJSInProcessRuntime JS
+@inject IStorageProvider storageProvider
 
 <PageTitle>Counter</PageTitle>
 
@@ -37,7 +37,7 @@
         {
             _currentCount = value;
 
-            JS.InvokeVoid("localStorage.setItem", "CurrentCount", _currentCount);
+            storageProvider.SetItem("CurrentCount", _currentCount);
 
         }
     }
@@ -47,17 +47,10 @@
 
     protected override void OnInitialized()
     {
-       
-        JS.InvokeVoid("console.log", "Hello Blazor!");
 
-        var value = JS.Invoke<string>("localStorage.getItem", "CurrentCount");
+        //JS.InvokeVoid("console.log", "Hello Blazor!");
 
-        if (!int.TryParse(value, out _currentCount))
-        {
-            _currentCount = default;
-        }
-
-        
+        _currentCount = storageProvider.GetItem<int>("CurrentCount");
 
     }
 
