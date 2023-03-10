@@ -5,6 +5,8 @@ using Microsoft.JSInterop;
 using SGH.Shopper.ClientApp;
 using SGH.Shopper.ClientApp.Services;
 using Fluxor;
+using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
@@ -45,5 +47,10 @@ builder.Services.AddFluxor(options =>
     });
 });
 
+builder.Services.AddScoped<CustomAuthenticationStateProvider>();
+builder.Services.AddScoped<AuthenticationStateProvider>(sp => sp.GetRequiredService<CustomAuthenticationStateProvider>());
+builder.Services.AddAuthorizationCore();
+
+builder.Services.AddHttpClient<AuthApiService>(sp => sp.BaseAddress = new Uri("https://localhost:7274"));
 
 await builder.Build().RunAsync();

@@ -12,13 +12,20 @@ public class JwtTokenService : ITokenService
 {
     public string CreateToken(UserIdentity userIdentity)
     {
+        // JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+        JwtSecurityTokenHandler.DefaultOutboundClaimTypeMap.Clear();
+
         var identity = new ClaimsIdentity();
         identity.AddClaim(new Claim(ClaimTypes.Name, userIdentity.Username));
-        identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, userIdentity.Username));
+        //identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, userIdentity.Username));
         identity.AddClaim(new Claim(ClaimTypes.HomePhone, userIdentity.Phone));
-        identity.AddClaim(new Claim(ClaimTypes.Email, userIdentity.Email));
+        //identity.AddClaim(new Claim(ClaimTypes.Email, userIdentity.Email));
+
 
         identity.AddClaim(new Claim(JwtRegisteredClaimNames.Sub, userIdentity.Username));
+        identity.AddClaim(new Claim(JwtRegisteredClaimNames.UniqueName, userIdentity.Username));
+        identity.AddClaim(new Claim(JwtRegisteredClaimNames.Name, userIdentity.Username));
+        identity.AddClaim(new Claim(JwtRegisteredClaimNames.NameId, userIdentity.Username));
 
         string secretKey = "your-256-bit-secret";
 

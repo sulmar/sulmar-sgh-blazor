@@ -1,0 +1,23 @@
+﻿@page "/authorization/login"
+@using SGH.Shopper.ClientApp.Models;
+@inject CustomAuthenticationStateProvider AuthenticationStateProvider
+
+
+<h3>Login</h3>
+
+<button class="btn btn-primary" @onclick="LoginAsync">Login</button>
+
+<button class="btn btn-outline-primary" @onclick="AuthenticationStateProvider.LogoutAsync">Logout</button>
+
+@code {
+
+    private LoginRequest loginRequest;
+
+    private async Task LoginAsync()
+    {
+        loginRequest = new LoginRequest { Username = "john", Password = "123" };
+
+        await AuthenticationStateProvider.LoginAsync(loginRequest);
+    }
+
+}

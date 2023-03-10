@@ -10,8 +10,23 @@ builder.Services.AddScoped<IUserIdentityRepository, FakeUserIdentityRepository>(
 builder.Services.AddScoped<IPasswordHasher<UserIdentity>, PasswordHasher<UserIdentity>>();
 builder.Services.AddScoped<ITokenService, JwtTokenService>();
 
+
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(policy =>
+    {
+        policy.WithOrigins(new string[] {
+            "http://localhost:5059",
+            "https://localhost:7141"
+        });
+        policy.WithMethods(new string[] { "POST" });
+        policy.AllowAnyHeader();        
+    });
+});
+
 var app = builder.Build();
 
+app.UseCors();
 
 
 app.MapGet("/", () => "Hello Auth Api");
