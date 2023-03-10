@@ -3,6 +3,7 @@ using SGH.Auth.Api.Domain;
 using System.Diagnostics.SymbolStore;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
 
 namespace SGH.Auth.Api.Infrastructure;
@@ -11,6 +12,15 @@ namespace SGH.Auth.Api.Infrastructure;
 
 public class JwtTokenService : ITokenService
 {
+    public string CreateRefreshToken(UserIdentity userIdentity)
+    {
+        var randomNumber = new byte[32];
+
+        using var rng = RandomNumberGenerator.Create();
+        rng.GetBytes(randomNumber);
+        return Convert.ToBase64String(randomNumber);
+    }
+
     public string CreateToken(UserIdentity userIdentity)
     {
         // JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();

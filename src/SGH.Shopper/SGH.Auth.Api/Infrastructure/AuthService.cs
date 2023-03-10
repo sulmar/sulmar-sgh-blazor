@@ -22,4 +22,11 @@ public class AuthService : IAuthService
 
         return userIdentity != null && passwordHasher.VerifyHashedPassword(userIdentity, userIdentity.HashedPassword, password) == PasswordVerificationResult.Success;
     }
+
+    public bool TryAuthorize(string refreshToken, out UserIdentity userIdentity)
+    {
+        userIdentity = userIdentityRepository.GetByRefreshToken(refreshToken);
+
+        return userIdentity != null;
+    }
 }

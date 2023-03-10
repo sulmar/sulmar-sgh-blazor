@@ -3,4 +3,5 @@
 public interface IUserIdentityRepository
 {
     UserIdentity GetByUsername(string username);
+    UserIdentity? GetByRefreshToken(string refreshToken);
 }

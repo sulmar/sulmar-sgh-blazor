@@ -22,6 +22,11 @@ public class FakeUserIdentityRepository : IUserIdentityRepository
         }
     }
 
+    public UserIdentity? GetByRefreshToken(string refreshToken)
+    {
+        return users.Values.SingleOrDefault(p => p.RefreshToken == refreshToken);
+    }
+
     public UserIdentity GetByUsername(string username)
     {
         if (users.TryGetValue(username, out var user))

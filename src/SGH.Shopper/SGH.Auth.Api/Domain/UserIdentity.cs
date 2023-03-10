@@ -9,4 +9,6 @@ public class UserIdentity
     public string Email { get; set; }
 
     public string[] Roles { get; set; }
+
+    public string RefreshToken { get; set; }
 }

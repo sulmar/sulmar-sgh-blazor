@@ -1,14 +1,16 @@
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using SGH.Auth.Api.Domain;
 using SGH.Auth.Api.Infrastructure;
 using SGH.Auth.Api.Models;
+using System.Runtime.CompilerServices;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddScoped<IAuthService, AuthService>();
-builder.Services.AddScoped<IUserIdentityRepository, FakeUserIdentityRepository>();
-builder.Services.AddScoped<IPasswordHasher<UserIdentity>, PasswordHasher<UserIdentity>>();
-builder.Services.AddScoped<ITokenService, JwtTokenService>();
+builder.Services.AddSingleton<IAuthService, AuthService>();
+builder.Services.AddSingleton<IUserIdentityRepository, FakeUserIdentityRepository>();
+builder.Services.AddSingleton<IPasswordHasher<UserIdentity>, PasswordHasher<UserIdentity>>();
+builder.Services.AddSingleton<ITokenService, JwtTokenService>();
 
 
 builder.Services.AddCors(options =>
@@ -20,7 +22,7 @@ builder.Services.AddCors(options =>
             "https://localhost:7141"
         });
         policy.WithMethods(new string[] { "POST" });
-        policy.AllowAnyHeader();        
+        policy.AllowAnyHeader();
     });
 });
 
@@ -32,17 +34,46 @@ app.UseCors();
 app.MapGet("/", () => "Hello Auth Api");
 
 
-app.MapPost("/api/token/create", (LoginRequest request, IAuthService authService, ITokenService tokenService) =>
+app.MapPost("/api/token/create", (LoginRequest request, 
+    IAuthService authService, ITokenService tokenService, HttpResponse response) =>
 {
     if (authService.TryAuthorize(request.Username, request.Password, out var userIdentity))
     {
         var token = tokenService.CreateToken(userIdentity);
 
+        var refreshToken = tokenService.CreateRefreshToken(userIdentity);
+
+        // TODO: przeniesc do repo IUserIdentityRepository
+        userIdentity.RefreshToken = refreshToken;
+
+        response.Headers.Add("X-Refresh-Token", refreshToken);
+
         return Results.Ok(token);
+
+        //return Results.Ok(new
+        //{
+        //    accesstoken = token,
+        //    refreshToken = refreshToken,
+        //});
     }
 
     return Results.BadRequest(new { message = "Username or password is incorrect" });
 
+});
+
+
+app.MapPost("/api/token/refresh", ([FromBody] string refreshToken, IAuthService authService, ITokenService tokenService, HttpResponse response) =>
+{
+    if (authService.TryAuthorize(refreshToken, out var userIdentity))
+    {
+        var token = tokenService.CreateToken(userIdentity);
+
+        response.Headers.Add("X-Refresh-Token", refreshToken);
+
+        return Results.Ok(token);
+    }
+
+    return Results.BadRequest(new { message = "Invalid refresh token" });
 });
 
 app.Run();
