@@ -1,7 +1,35 @@
-﻿using SGH.Shopper.Domain;
+﻿using Microsoft.Net.Http.Headers;
+using SGH.Shopper.Domain;
 using System.Net.Http.Json;
 
 namespace SGH.Shopper.ClientApp.Services;
+
+public class CustomAuthorizationMessageHandler : DelegatingHandler
+{
+    private readonly IStorageProvider storageProvider;
+
+    public CustomAuthorizationMessageHandler(IStorageProvider storageProvider)
+    {
+        this.storageProvider = storageProvider;
+    }
+
+    protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+    {        
+        if (!request.Headers.Contains("Authorization"))
+        {
+            var token = storageProvider.GetItem("token");
+
+            if (token != null)
+            {
+                request.Headers.Add(HeaderNames.Authorization, $"Bearer {token}");
+                
+            }
+        }
+
+        return await base.SendAsync(request, cancellationToken);
+    }
+
+}
 
 public class ProductApiService
 {
@@ -19,10 +47,15 @@ public class ProductApiService
 
         var response = await client.GetAsync(url);
 
-        var items = await response.Content.ReadFromJsonAsync<IEnumerable<Product>>();
-        var totalCount = int.Parse(response.Headers.GetValues("X-Total-Count").First());
+        if (response.IsSuccessStatusCode)
+        {
+            var items = await response.Content.ReadFromJsonAsync<IEnumerable<Product>>();
+            var totalCount = int.Parse(response.Headers.GetValues("X-Total-Count").First());
 
-        return new PagingResponse<Product> { Items = items, TotalCount = totalCount };
+            return new PagingResponse<Product> { Items = items, TotalCount = totalCount };
+        }
+
+        return new PagingResponse<Product>();
     }
 
     public async Task<Product> GetProductById(int id) => await client.GetFromJsonAsync<Product>($"/api/products/{id}");

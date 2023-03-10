@@ -1,6 +1,5 @@
 using Bogus;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.DataProtection.KeyManagement;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.FileProviders;
@@ -91,7 +90,7 @@ app.MapGet("/api/products", async (IProductRepository repository) => await repos
 
 // GET api/products/search?filter={content}
 
-app.MapGet("/api/products/search", async (IProductRepository repository, [FromQuery(Name = "filter")] string content) => await repository.GetByContent(content));
+app.MapGet("/api/products/search", async (IProductRepository repository, [FromQuery(Name = "filter")] string content) => await repository.GetByContent(content)).RequireAuthorization();
 
 // GET api/products?pageSize={pageSize}&pageNumber={pageNumber}
 app.MapGet("/api/products/paging", async (IProductRepository repository, [AsParameters] PagingParameters parameters, HttpResponse response) =>
@@ -102,7 +101,7 @@ app.MapGet("/api/products/paging", async (IProductRepository repository, [AsPara
 
     return Results.Ok(result.Items);
     
-});
+}).RequireAuthorization();
 
 
 app.MapGet("/api/products/{id:int}", async (IProductRepository repository, int id) => await repository.GetByIdAsync(id))
