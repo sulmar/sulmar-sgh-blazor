@@ -16,6 +16,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Update="Assets\lorem-ipsum.pdf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

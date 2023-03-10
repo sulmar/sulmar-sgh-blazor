@@ -1,7 +1,10 @@
 using Bogus;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.DataProtection.KeyManagement;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.FileProviders;
+using Microsoft.IdentityModel.Tokens;
 using SGH.Shopper.Api;
 using SGH.Shopper.Api.Hubs;
 using SGH.Shopper.Domain;
@@ -42,10 +45,36 @@ builder.Services.AddCors(options =>
 
 builder.Services.AddSignalR();
 
+// // dotnet add package Microsoft.AspNetCore.Authentication.JwtBearer
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(options =>
+{
+    string secretKey = "your-256-bit-secret";
+    var key = System.Text.Encoding.UTF8.GetBytes(secretKey);
+
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(key),
+        ValidateIssuer = false,
+        ValidIssuer = "http://sgh.pl",
+        ValidateAudience = false,
+        ValidAudience = "http://domain.com",
+        ClockSkew = TimeSpan.Zero,
+        ValidateLifetime = true,
+    };
+});
+
 
 var app = builder.Build();
 
 app.UseCors();
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.UseStaticFiles(new StaticFileOptions
 {
@@ -57,7 +86,8 @@ app.UseStaticFiles(new StaticFileOptions
 
 app.MapGet("/", () => "Hello World!");
 
-app.MapGet("/api/products", async (IProductRepository repository) => await repository.GetAllAsync());
+app.MapGet("/api/products", async (IProductRepository repository) => await repository.GetAllAsync())
+    .RequireAuthorization(); // [Authorization(Roles = "admin")]
 
 // GET api/products/search?filter={content}
 
