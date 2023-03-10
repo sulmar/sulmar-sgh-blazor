@@ -61,7 +61,7 @@ builder.Services.AddAuthorizationCore(options =>
     options.AddPolicy("AdultPolicy", policy =>
     {
         policy.RequireClaim(ClaimTypes.DateOfBirth);
-        policy.AddRequirements(new AdultRequirement());
+        policy.AddRequirements(new AdultRequirement(18));
         // policy.RequireRole("Admin");
     });
 });

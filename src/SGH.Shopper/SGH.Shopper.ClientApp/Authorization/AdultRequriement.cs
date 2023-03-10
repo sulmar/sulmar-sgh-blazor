@@ -5,7 +5,12 @@ namespace SGH.Shopper.ClientApp.Authorization;
 
 public class AdultRequirement : IAuthorizationRequirement // mark interface
 {
-    public int MinimumAge { get; set; } = 18;
+    public int MinimumAge { get; set; }
+
+    public AdultRequirement(int minimumAge = 18)
+    {
+        MinimumAge = minimumAge;
+    }
 }
 
 
@@ -21,11 +26,18 @@ public class AdultRequirementHandler : AuthorizationHandler<AdultRequirement>
             return Task.CompletedTask;
         }
 
+        int minimumAge = requirement.MinimumAge;
+
+        if (context.Resource!=null)
+        {
+            minimumAge = Convert.ToInt32(context.Resource);
+        }
+
         var dateOfBirth = DateTime.Parse(context.User.FindFirst(ClaimTypes.DateOfBirth).Value);
 
         var age = DateTime.Today.Year - dateOfBirth.Year;
 
-        if (age >= requirement.MinimumAge)
+        if (age >= minimumAge)
         {
             context.Succeed(requirement);
         }

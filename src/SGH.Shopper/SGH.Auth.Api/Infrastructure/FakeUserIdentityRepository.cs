@@ -14,6 +14,7 @@ public class FakeUserIdentityRepository : IUserIdentityRepository
             ["john"] = new UserIdentity { Username = "john", Email = "john.smith@domain.com", Phone = "555-111-000", DateOfBirth = DateTime.Today.AddYears(-17), Roles = new string[] { "admin" } },
             ["ann"] = new UserIdentity { Username = "ann", Email = "ann.smith@domain.com", Phone = "555-111-000", DateOfBirth = DateTime.Today.AddYears(-18), Roles = new string[] { "paid" } },
             ["kate"] = new UserIdentity { Username = "kate", Email = "kate.smith@domain.com", Phone = "555-111-000", Roles = new string[] { "admin", "paid" } },
+            ["bob"] = new UserIdentity { Username = "bob", Email = "bob.smith@domain.com", Phone = "555-111-000", DateOfBirth = DateTime.Today.AddYears(-26), Roles = new string[] { "admin", "paid" } },
         };
 
         foreach (var user in users.Values)
