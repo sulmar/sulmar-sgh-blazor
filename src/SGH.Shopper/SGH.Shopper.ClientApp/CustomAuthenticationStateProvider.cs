@@ -55,7 +55,7 @@ public class CustomAuthenticationStateProvider : AuthenticationStateProvider
             }
             catch (Exception ex)
             {
-
+                await LogoutAsync();
             }
 
 
