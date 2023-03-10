@@ -3,6 +3,7 @@ using SGH.Auth.Api.Domain;
 using System.Diagnostics.SymbolStore;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Text;
 
 namespace SGH.Auth.Api.Infrastructure;
 
@@ -19,7 +20,18 @@ public class JwtTokenService : ITokenService
         identity.AddClaim(new Claim(ClaimTypes.Name, userIdentity.Username));
         //identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, userIdentity.Username));
         identity.AddClaim(new Claim(ClaimTypes.HomePhone, userIdentity.Phone));
+        identity.AddClaim(new Claim(ClaimTypes.HomePhone, userIdentity.Phone));
+        identity.AddClaim(new Claim(ClaimTypes.HomePhone, userIdentity.Phone));
+
         //identity.AddClaim(new Claim(ClaimTypes.Email, userIdentity.Email));
+
+        foreach (var role in userIdentity.Roles)
+        {
+            identity.AddClaim(new Claim(ClaimTypes.Role, role));
+        }
+        
+
+
 
 
         identity.AddClaim(new Claim(JwtRegisteredClaimNames.Sub, userIdentity.Username));
@@ -27,20 +39,21 @@ public class JwtTokenService : ITokenService
         identity.AddClaim(new Claim(JwtRegisteredClaimNames.Name, userIdentity.Username));
         identity.AddClaim(new Claim(JwtRegisteredClaimNames.NameId, userIdentity.Username));
 
-        string secretKey = "your-256-bit-secret";
 
-        var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(secretKey));
-        var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+        string secretKey = "your-256-bit-secret";
+        var key = Encoding.ASCII.GetBytes(secretKey);
 
         var tokenHandler = new JwtSecurityTokenHandler();
+        var signingCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature);
+        
 
         var tokenDescriptor = new SecurityTokenDescriptor
         {
             Subject = identity,
-            Expires = DateTime.UtcNow.AddMinutes(15),
-            SigningCredentials = credentials,
-            Issuer = "http://sgh.pl",
-            Audience = "http://domain.com"
+            Expires = DateTime.UtcNow.AddMinutes(1),
+            SigningCredentials = signingCredentials,
+            //Issuer = "http://sgh.pl",
+            //Audience = "http://domain.com"
         };
 
         var securityToken = tokenHandler.CreateToken(tokenDescriptor);

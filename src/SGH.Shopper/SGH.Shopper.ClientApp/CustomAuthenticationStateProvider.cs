@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.IdentityModel.Tokens;
 using SGH.Shopper.ClientApp.Models;
 using SGH.Shopper.ClientApp.Services;
 using System.IdentityModel.Tokens.Jwt;
@@ -31,7 +32,33 @@ public class CustomAuthenticationStateProvider : AuthenticationStateProvider
         if (tokenHandler.CanReadToken(token))
         {
             var jwtSecurityToken = tokenHandler.ReadJwtToken(token);
-            identity = new ClaimsIdentity(jwtSecurityToken.Claims, "SGH Auth");
+
+            try
+            {
+                string secretKey = "your-256-bit-secret";
+
+                var key = System.Text.Encoding.UTF8.GetBytes(secretKey);
+
+                tokenHandler.ValidateToken(token, new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = false,
+                    ValidIssuer = "http://sgh.pl",
+                    ValidateAudience = false,
+                    ValidAudience = "http://domain.com",
+                    ClockSkew = TimeSpan.Zero, 
+                    ValidateLifetime = true,
+                }, out var validatedToken);
+
+                identity = new ClaimsIdentity(jwtSecurityToken.Claims, "SGH Auth");
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+
         }
 
         var principal = new ClaimsPrincipal(identity);

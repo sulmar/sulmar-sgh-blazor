@@ -7,4 +7,6 @@ public class UserIdentity
 
     public string Phone { get; set; }
     public string Email { get; set; }
+
+    public string[] Roles { get; set; }
 }

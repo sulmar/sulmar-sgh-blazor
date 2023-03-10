@@ -5,18 +5,37 @@
 
 <h3>Login</h3>
 
-<button class="btn btn-primary" @onclick="LoginAsync">Login</button>
+<EditForm Model="loginRequest" OnValidSubmit="LoginAsync">
+
+    <div class="form-grup">
+        <label>
+            Username:
+            <InputText id="username" @bind-Value="loginRequest.Username" class="form-control" />
+        </label>
+    </div>
+
+
+    <div class="form-grup">
+        <label>
+            Password:
+            <InputText id="password" @bind-Value="loginRequest.Password" class="form-control" />
+        </label>
+    </div>
+
+    <button class="btn btn-primary" type="submit">Login</button>
+
+</EditForm>
+
+
 
 <button class="btn btn-outline-primary" @onclick="AuthenticationStateProvider.LogoutAsync">Logout</button>
 
 @code {
 
-    private LoginRequest loginRequest;
+    private LoginRequest loginRequest = new LoginRequest();
 
     private async Task LoginAsync()
     {
-        loginRequest = new LoginRequest { Username = "john", Password = "123" };
-
         await AuthenticationStateProvider.LoginAsync(loginRequest);
     }
 
