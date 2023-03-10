@@ -68,6 +68,9 @@ builder.Services.AddAuthentication(options =>
 });
 
 
+builder.Services.AddAuthorizationBuilder().AddPolicy("admin_policy", policy =>
+policy.RequireRole("admin"));
+
 var app = builder.Build();
 
 app.UseCors();
@@ -137,7 +140,8 @@ app.MapPost("/api/products", async (Product product, IProductRepository reposito
 });
 
 app.MapGroup("/api/customers")
-    .MapCustomers();
+    .MapCustomers()
+    .RequireAuthorization("admin_policy");
 
 app.MapHub<ProductsHub>("hubs/products");
 
