@@ -10,7 +10,7 @@
 <nav class="flex-column">
 
     <div class="nav-item px-3">
-        <NavLink class="nav-link" href="counter" >
+        <NavLink class="nav-link" href="counter">
             <span class="oi oi-plus"></span> Counter
         </NavLink>
     </div>
@@ -22,7 +22,7 @@
     </div>
 
     <div class="nav-item px-3">
-        <NavLink class="nav-link" href="products" >
+        <NavLink class="nav-link" href="products">
             <span class="oi oi-plus"></span> Products
         </NavLink>
     </div>
@@ -75,12 +75,19 @@
         </NavLink>
     </div>
 
-    <div class="nav-item px-3">
-        <NavLink class="nav-link" href="help">
-            <span class="oi oi-list-rich" aria-hidden="true"></span> Help
-        </NavLink>
-    </div>
-    
+    <AuthorizeView Policy="AdultPolicy">
+
+        <Authorized>
+
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="help">
+                    <span class="oi oi-list-rich" aria-hidden="true"></span> Help
+                </NavLink>
+            </div>
+
+        </Authorized>
+    </AuthorizeView>
+
 </nav>
 
 @code {

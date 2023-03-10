@@ -1,5 +1,7 @@
 ﻿@page "/help"
-@attribute [Authorize(Roles = "admin,paid")]
+@*@attribute [Authorize(Roles = "admin,paid")]*@
+
+@attribute [Authorize(Policy = "AdultPolicy")]
 
 <h3>Help</h3>
 

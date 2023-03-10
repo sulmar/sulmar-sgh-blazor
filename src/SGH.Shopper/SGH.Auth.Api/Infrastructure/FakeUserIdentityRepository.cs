@@ -11,8 +11,8 @@ public class FakeUserIdentityRepository : IUserIdentityRepository
     {
         users = new Dictionary<string, UserIdentity>()
         {
-            ["john"] = new UserIdentity { Username = "john", Email = "john.smith@domain.com", Phone = "555-111-000", Roles = new string[] { "admin" } },
-            ["ann"] = new UserIdentity { Username = "ann", Email = "ann.smith@domain.com", Phone = "555-111-000", Roles = new string[] { "paid" } },
+            ["john"] = new UserIdentity { Username = "john", Email = "john.smith@domain.com", Phone = "555-111-000", DateOfBirth = DateTime.Today.AddYears(-17), Roles = new string[] { "admin" } },
+            ["ann"] = new UserIdentity { Username = "ann", Email = "ann.smith@domain.com", Phone = "555-111-000", DateOfBirth = DateTime.Today.AddYears(-18), Roles = new string[] { "paid" } },
             ["kate"] = new UserIdentity { Username = "kate", Email = "kate.smith@domain.com", Phone = "555-111-000", Roles = new string[] { "admin", "paid" } },
         };
 

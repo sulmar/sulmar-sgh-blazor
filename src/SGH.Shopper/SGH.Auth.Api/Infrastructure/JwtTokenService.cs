@@ -33,6 +33,9 @@ public class JwtTokenService : ITokenService
         identity.AddClaim(new Claim(ClaimTypes.HomePhone, userIdentity.Phone));
         identity.AddClaim(new Claim(ClaimTypes.HomePhone, userIdentity.Phone));
 
+        if (userIdentity.DateOfBirth.HasValue)
+            identity.AddClaim(new Claim(ClaimTypes.DateOfBirth, userIdentity.DateOfBirth.Value.ToShortDateString()));
+
         //identity.AddClaim(new Claim(ClaimTypes.Email, userIdentity.Email));
 
         foreach (var role in userIdentity.Roles)
@@ -40,10 +43,6 @@ public class JwtTokenService : ITokenService
             identity.AddClaim(new Claim(ClaimTypes.Role, role));
         }
         
-
-
-
-
         identity.AddClaim(new Claim(JwtRegisteredClaimNames.Sub, userIdentity.Username));
         identity.AddClaim(new Claim(JwtRegisteredClaimNames.UniqueName, userIdentity.Username));
         identity.AddClaim(new Claim(JwtRegisteredClaimNames.Name, userIdentity.Username));
